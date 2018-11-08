@@ -6,11 +6,11 @@ import br.edu.ulbra.election.party.model.Party;
 import br.edu.ulbra.election.party.output.v1.GenericOutput;
 import br.edu.ulbra.election.party.output.v1.PartyOutput;
 import br.edu.ulbra.election.party.repository.PartyRepository;
+import org.apache.commons.lang.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.apache.commons.lang.StringUtils;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -38,6 +38,7 @@ public class PartyService {
 
     public PartyOutput create(PartyInput partyInput){
         this.validateInput(partyInput);
+        this.valideteNewParty(partyInput)   ;
         Party party = modelMapper.map(partyInput, Party.class);
         party = partyRepository.save(party);
         return modelMapper.map(party, PartyOutput.class);
@@ -96,4 +97,23 @@ public class PartyService {
         }
     }
 
+    private void valideteNewParty(PartyInput partyInput){
+        List<PartyOutput> partyOutputList  = this.getAll();
+
+        for(PartyOutput partyOutput : partyOutputList){
+            if(partyOutput.getCode().equals(partyInput.getCode())){
+                throw new GenericOutputException("Party code is unavailable\n");
+            }
+            if(partyOutput.getNumber() == partyInput.getNumber()){
+                throw new GenericOutputException("Party number is unavailable\n");
+            }
+        }
+        
+        if(String.valueOf(partyInput.getNumber()).length() != 2){
+            throw new GenericOutputException("The number of a party must be composed of 2 digits\n");
+        }
+        if(partyInput.getName().length() < 5 ){
+            throw new GenericOutputException("Name must be at least 5 letters\n");
+        }
+    }
 }
