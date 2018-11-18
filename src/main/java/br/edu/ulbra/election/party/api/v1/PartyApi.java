@@ -17,7 +17,7 @@ public class PartyApi {
     private final PartyService partyService;
 
     @Autowired
-    public PartyApi(PartyService partyService) {
+    public PartyApi(PartyService partyService){
         this.partyService = partyService;
     }
 
@@ -30,19 +30,19 @@ public class PartyApi {
     @GetMapping("/{partyId}")
     @ApiOperation(value = "Get party by Id")
     public PartyOutput getById(@PathVariable Long partyId){
-        return  partyService.getById(partyId);
+        return partyService.getById(partyId);
     }
 
     @PostMapping("/")
     @ApiOperation(value = "Create new party")
     public PartyOutput create(@RequestBody PartyInput partyInput){
-        return  partyService.create(partyInput);
+        return partyService.create(partyInput);
     }
 
     @PutMapping("/{partyId}")
     @ApiOperation(value = "Update party")
     public PartyOutput update(@PathVariable Long partyId, @RequestBody PartyInput partyInput){
-        return partyService.update(partyId,partyInput);
+        return partyService.update(partyId, partyInput);
     }
 
     @DeleteMapping("/{partyId}")
