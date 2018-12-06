@@ -102,18 +102,18 @@ public class PartyService {
 
         for(PartyOutput partyOutput : partyOutputList){
             if(partyOutput.getCode().equals(partyInput.getCode())){
-                throw new GenericOutputException("Party code is unavailable\n");
+                throw new GenericOutputException("Party code is unavailable");
             }
             if(partyOutput.getNumber() == partyInput.getNumber()){
-                throw new GenericOutputException("Party number is unavailable\n");
+                throw new GenericOutputException("Party number is unavailable");
             }
         }
         
         if(String.valueOf(partyInput.getNumber()).length() != 2){
-            throw new GenericOutputException("The number of a party must be composed of 2 digits\n");
+            throw new GenericOutputException("The number of a party must be composed of 2 digits");
         }
         if(partyInput.getName().length() < 5 ){
-            throw new GenericOutputException("Name must be at least 5 letters\n");
+            throw new GenericOutputException("Minimal of letters 5");
         }
     }
 }
